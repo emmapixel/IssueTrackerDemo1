@@ -1,0 +1,55 @@
+﻿@page
+@using static trackingIssues.Models.Issue;
+@model trackingIssues.Pages.Issues.NewModel
+@{
+}
+
+@{
+    // We capture the title and group labels and controls inside a div that has the class form group.
+    // We also use classes such as form label or form control to make the html element nicer.
+    // We also use tag helpers to make the creation of the html elements easier.
+    // The label tag helper has a asp-for attribute which is useful to generate the for attribute on a label.
+    // We want to use the http post to submit data.
+    // To display errors on the page we are going to use validation tag helpers.
+    /* The span element will display an error if the title is empty or if the length is more than -
+       100 characters. */
+}
+
+<div class="mt-5">
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="Issue.Title" class="form-label">Title</label>
+            <input asp-for="Issue.Title" class="form-control" />
+            <span asp-validation-for="Issue.Title" class="text text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Issue.Description" class="form-label">Description</label>
+            <textarea asp-for="Issue.Description" class="form-control" rows-3></textarea>
+            <span asp-validation-for="Issue.Description" class="text text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Issue.IssueTypes" class="form-label">Type</label>
+            <input asp-for="Issue.Title" class="form-control" />
+            @{ /* Here we are going to replace the input with a select tag helper.
+                  This tag helper has an attribute named asp-items which allows setting the options.
+                  We use a helper method named GetEnumSelectList to display the issue type as the -
+                  option for the selected element. */
+            }
+            <select class="form-select" 
+                asp-for="Issue.IssueTypes"
+                asp-items="Html.GetEnumSelectList<IssueType>()">
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Issue.Priorities" class="form-label">Priority</label>
+            <select class="form-select"
+                    asp-for="Issue.Priorities"
+                    asp-items="Html.GetEnumSelectList<Priority>()">    
+            </select>
+        </div>
+        <button class="wt-20 col-12 btn btn-primary btn-lg">Submit Issue</button>
+    </form>
+</div>

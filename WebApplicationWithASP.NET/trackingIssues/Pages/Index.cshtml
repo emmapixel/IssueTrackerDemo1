@@ -1,0 +1,47 @@
+﻿@page
+@using Humanizer;
+@using trackingIssues.Extensions;
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+</div>
+
+@{
+    // With the if statement we dispay the data that we have in the database.
+    // With the foreach loop we iterate over the list of issues. We will use the bootstrap card component.
+}
+
+<div class="mt-5">
+    <a asp-page="/Issues/New" class="w-20 vtn btn-primary m-2">+ Add new</a>
+    @if(Model.Issues.Count() == 0)
+    {
+        <p class="text-center">No data to display</p>
+    }
+    else
+    {
+        <div class="row g-0">
+            @foreach(var issue in Model.Issues)
+            {
+                <div class="card text-center">
+                    <div class="card-header">
+                        @issue.IssueTypes
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a asp-page="/Issues/Detail" asp-route-id="@issue.Id" class="link-dark text-decoration-none" >@issue.Title</a>
+                        </h5>
+                        <span class="@issue.Priorities.ToCssClass()">@issue.Priorities</span>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <small>@issue.Created.Humanize(utcDate:false)</small>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
